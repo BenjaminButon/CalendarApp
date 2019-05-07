@@ -12,6 +12,7 @@ import {createStackNavigator, createAppContainer, createSwitchNavigator} from 'r
 import SignIn from './src/SignIn/SignInScreen';
 import SignUpScreen from './src/SignUp/SignUpScreen';
 import Home from './src/Home/HomeScreen';
+import Post from './src/PostScreen/PostScreen';
 import CustomText from './src/CustomText';
 
 const AuthNavigator = createStackNavigator({
@@ -32,6 +33,9 @@ const AuthNavigator = createStackNavigator({
 const AppNavigator = createStackNavigator({
     Home: {
       screen: Home
+    },
+    Post: {
+      screen: Post
     }
   },
   {
@@ -51,7 +55,7 @@ const AppContainer = createAppContainer(createSwitchNavigator({
   Auth: AuthNavigator
 },
 {
-  initialRouteName: 'Auth'
+  initialRouteName: 'App'
 }))
 
 export default class App extends Component{

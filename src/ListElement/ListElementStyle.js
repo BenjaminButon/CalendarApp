@@ -8,8 +8,12 @@ export default style = StyleSheet.create({
     textContainer: {
         flexDirection: 'column',
         justifyContent: 'space-evenly',
+        maxWidth: 180,
         paddingTop: 15,
-        paddingBottom: 20
+        paddingBottom: 20,
+        flexWrap: 'wrap',
+        flexGrow: 1,
+        flex: 1
     },
     photo: {
         width: 60,
@@ -21,7 +25,6 @@ export default style = StyleSheet.create({
     background: {
         backgroundColor: 'rgb(59, 59, 59)',
         height: 90,
-        //flex: 0.9, 
         flexDirection: 'row',
         marginTop: 10,
         borderRadius: 10,
@@ -31,7 +34,9 @@ export default style = StyleSheet.create({
     headTextContainer: {
         color: 'white',
         flexDirection: 'row',
-        flex: 1
+        //flexWrap: ,
+        flex: 1,
+        maxWidth: 180
     },
     date: {
         width: 60,
