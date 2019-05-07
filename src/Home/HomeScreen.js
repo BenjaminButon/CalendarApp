@@ -40,10 +40,6 @@ export default class HomeScreen extends React.Component{
         
         for (var i = 0; i < this.state.posts.length; i++){
             var post = this.state.posts[i]
-            var postId = post.postId
-            var author = post.author
-            var title = post.title
-            var body = post.body
             
             elements.push(
                 <ListElement title={post.title} author={users[post.userId - 1]} postId={post.id} body={post.body} navigation={this.props.navigation}/>

@@ -10,24 +10,37 @@ export default class PostScreen extends React.Component{
         super(props)
     }
 
+    
     state = {
-        persons: []
+        comments: []
       }
 
     componentDidMount() {
-        axios.get(`https://jsonplaceholder.typicode.com/comments?postId=` + this.props.postId)
+        const {navigation} = this.props
+        axios.get(`https://jsonplaceholder.typicode.com/comments?postId=` + navigation.getParam('postId', ''))
           .then(res => {
-            const persons = res.data;
-            this.setState({ persons });
+            const comments = res.data;
+            this.setState({ comments });
             console.log(persons);
           })
     }
 
     render() {
         const { navigation } = this.props
-        const author = navigation.getParam('postId', 'unknown id')
+        const postId = navigation.getParam('postId', 1)
+        const author = navigation.getParam('author', 'unknown author')
         const title = navigation.getParam('title', 'unknown title')
         const body = navigation.getParam('body', 'unknown body')
+
+        var comments = []
+        for (var i = 0; i < this.state.comments; i++){
+            var comment = comments[i]
+
+            comments.push(
+                <Comment />
+            )
+
+        }
         return (
           <View>
               <Post author={JSON.stringify(author)} title={JSON.stringify(title)} body={JSON.stringify(body)}/>
