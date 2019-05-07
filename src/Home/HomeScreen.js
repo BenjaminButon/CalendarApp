@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, TextInput, Button, Image} from 'react-native';
 import HomeHeader from '../HomeHeader/HomeHeader';
 import ListElement from '../ListElement/ListElement';
+import style from './HomeScreenStyle';
 
 
 export default class HomeScreen extends React.Component{
@@ -25,13 +26,3 @@ export default class HomeScreen extends React.Component{
     }
 }
 
-const style = StyleSheet.create({
-    background: {
-        backgroundColor: 'rgb(41, 41, 41)',
-        flex: 1,
-        flexDirection: 'column',
-        //justifyContent: 'center',
-        paddingLeft: 15,
-        paddingRight: 15
-    }
-})
