@@ -20,9 +20,7 @@ export async function getUsers(){
 
 export async function getCommentForPost(postId){
     try{
-        var str = 'https://jsonplaceholder.typicode.com/comments?postId=' + String(postId)
-        console.log(postId)
-        const data = await axios.get('https://jsonplaceholder.typicode.com/comments?postId=' + postId)
+        const data = await axios.get(`https://jsonplaceholder.typicode.com/comments?postId=${postId}`)
         return data.data
     } catch (err){
         return []

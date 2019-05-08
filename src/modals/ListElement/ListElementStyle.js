@@ -19,8 +19,7 @@ export default style = StyleSheet.create({
         width: 60,
         height: 60,
         borderRadius: 10,
-        marginLeft: -10,
-
+        marginLeft: -10
     }, 
     background: {
         backgroundColor: 'rgb(59, 59, 59)',

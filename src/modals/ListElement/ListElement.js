@@ -13,7 +13,7 @@ export default class ListElement extends React.PureComponent{
             postId: this.props.postId
         })}>
         <View style={style.background}>
-                <Image source={require('../../../assets/photo.png')} style={style.photo}/>
+                <Image source={require(`../../../assets/photo.png`)} style={style.photo}/>
                 <View style={style.textContainer}>
                     <View style={style.headTextContainer}>
                     <Text style={{fontSize: 14, color: 'white', fontWeight: 'bold'}}>{this.props.author}</Text>

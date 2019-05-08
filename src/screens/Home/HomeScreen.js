@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {FlatList, ActivityIndicator} from 'react-native';
 import HomeHeader from '../HomeHeader/HomeHeader';
-import ListElement from '../../models/ListElement/ListElement';
+import ListElement from '../../modals/ListElement/ListElement';
 import style from './HomeScreenStyle';
 import { getPosts, getUsers } from '../../services/services';
 
@@ -35,7 +35,6 @@ export default class HomeScreen extends React.Component{
     }
 
     render() {
-        console.log('in render')
         if (!this.state.posts.length || !this.state.users.length){
             return <ActivityIndicator/>
         }
@@ -43,8 +42,8 @@ export default class HomeScreen extends React.Component{
                 <FlatList
                     style={style.background}
                     data={this.state.posts}
-                    renderItem={({item}) => (
-                        <ListElement title={item.title} author='Owner' postId={item.id} body={item.body} navigation={this.props.navigation}/>
+                    renderItem={({item, index}) => (
+                        <ListElement title={item.title} author='Owner' postId={item.id} body={item.body} navigation={this.props.navigation} image={`../../../assets/avatar${index%5}.png`}/>
                     )}
                 />
         )
