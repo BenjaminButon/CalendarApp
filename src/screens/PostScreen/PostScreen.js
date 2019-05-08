@@ -1,16 +1,16 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, TextInput, Image, TouchableHighlight} from 'react-native';
+import {Platform, StyleSheet, Text, View, TextInput, Image, TouchableHighlight, FlatList, ActivityIndicator} from 'react-native';
 import axios from 'axios';
 import Post from '../../models/Post/Post';
 import Comment from '../../models/Comment/Comment';
-import { ScrollView } from 'react-native-gesture-handler';
 import style from './style'
+import { getCommentForPost } from '../../services/services';
 
 export default class PostScreen extends React.Component{
-    constructor(props){
-        super(props)
-    }
-
+    author
+    title
+    body
+    postId
     
     state = {
         comments: []
@@ -18,35 +18,32 @@ export default class PostScreen extends React.Component{
 
     componentDidMount() {
         const {navigation} = this.props
-        axios.get(`https://jsonplaceholder.typicode.com/comments?postId=` + navigation.getParam('postId', ''))
-          .then(response => {
-            const gotComments = response.data;
-            this.setState({ comments: gotComments });
-            console.log(gotComments);
-          })
+        this.postId = navigation.getParam('postId')
+        this.title = navigation.getParam('title')
+        this.author = navigation.getParam('author')
+        this.body = navigation.getParam('body')
+        getCommentForPost(this.postId)
+        .then(response => {
+          this.setState({comments: response})
+        })
+        .catch(error => {
+          console.log(error.message)
+        })
     }
 
     render() {
-        const { navigation } = this.props
-        const postId = navigation.getParam('postId', 1)
-        const author = navigation.getParam('author', 'unknown author')
-        const title = navigation.getParam('title', 'unknown title')
-        const body = navigation.getParam('body', 'unknown body')
-
-        var comments = []
-        //console.log(this.state.comments.length)
-        for (var i = 0; i < this.state.comments.length; i++){
-            var comment = this.state.comments[i]
-            console.log(comment)
-            comments.push(<Comment name={comment.name} email={comment.email} body={comment.body}/>)
-
+        if (!this.state.comments.length){
+          return <ActivityIndicator/>
         }
         return (
           <View>
-              <Post author={JSON.stringify(author)} title={JSON.stringify(title)} body={JSON.stringify(body)}/>
-              <ScrollView style={style.commentsScroll}>
-                {comments}
-              </ScrollView>
+              <Post author={this.author} title={this.title} body={this.body}/>
+              <FlatList 
+                data={this.state.comments}
+                renderItem={({item}) => (
+                  <Comment name={item.name} email={item.email} body={item.body}/>
+                )}
+              />
           </View>
         )
       }

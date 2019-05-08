@@ -2,11 +2,8 @@ import axios from 'axios';
 
 export async function getPosts(){
     try{
-    const data = await axios.get('https://jsonplaceholder.typicode.com/posts');
-    if (data['status'] != 200){
-        throw('bad status')
-    }
-    return data
+    const data = await axios.get('https://jsonplaceholder.typicode.com/posts')
+    return data.data
     } catch (err){
         return []
     }
@@ -15,10 +12,18 @@ export async function getPosts(){
 export async function getUsers(){
     try{
         const data = await axios.get('https://jsonplaceholder.typicode.com/users');
-        if(data['status'] != 200){
-            throw('bad status')
-        }
-        return data
+        return data.data
+    } catch (err){
+        return []
+    }
+}
+
+export async function getCommentForPost(postId){
+    try{
+        var str = 'https://jsonplaceholder.typicode.com/comments?postId=' + String(postId)
+        console.log(postId)
+        const data = await axios.get('https://jsonplaceholder.typicode.com/comments?postId=' + postId)
+        return data.data
     } catch (err){
         return []
     }

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, TextInput, Image, TouchableHighlight} from 'react-native';
 import style from './ListElementStyle';
 
-export default class ListElement extends React.Component{
+export default class ListElement extends React.PureComponent{
 
     render() {
         return (

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, TextInput, Image} from 'react-native';
 import style from './HomeHeaderStyle';
 
-export default class HomeHeader extends React.Component{
+export default class HomeHeader extends React.PureComponent{
     render() {
         return (
             <View style={{flexDirection: 'row'}}>

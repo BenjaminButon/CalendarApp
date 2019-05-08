@@ -3,7 +3,7 @@ import {Platform, StyleSheet, Text, View, TextInput, Image, TouchableHighlight} 
 import style from './style'
 
 
-export default class Comment extends React.Component{
+export default class Comment extends React.PureComponent{
     render() {
         return (
             <View style={style.comment}>
