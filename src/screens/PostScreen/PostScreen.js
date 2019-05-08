@@ -4,6 +4,7 @@ import axios from 'axios';
 import Post from '../../models/Post/Post';
 import Comment from '../../models/Comment/Comment';
 import { ScrollView } from 'react-native-gesture-handler';
+import style from './style'
 
 export default class PostScreen extends React.Component{
     constructor(props){
@@ -18,10 +19,10 @@ export default class PostScreen extends React.Component{
     componentDidMount() {
         const {navigation} = this.props
         axios.get(`https://jsonplaceholder.typicode.com/comments?postId=` + navigation.getParam('postId', ''))
-          .then(res => {
-            const comments = res.data;
-            this.setState({ comments });
-            console.log(persons);
+          .then(response => {
+            const gotComments = response.data;
+            this.setState({ comments: gotComments });
+            console.log(gotComments);
           })
     }
 
@@ -33,17 +34,19 @@ export default class PostScreen extends React.Component{
         const body = navigation.getParam('body', 'unknown body')
 
         var comments = []
-        for (var i = 0; i < this.state.comments; i++){
-            var comment = comments[i]
-
-            comments.push(
-                <Comment />
-            )
+        //console.log(this.state.comments.length)
+        for (var i = 0; i < this.state.comments.length; i++){
+            var comment = this.state.comments[i]
+            console.log(comment)
+            comments.push(<Comment name={comment.name} email={comment.email} body={comment.body}/>)
 
         }
         return (
           <View>
               <Post author={JSON.stringify(author)} title={JSON.stringify(title)} body={JSON.stringify(body)}/>
+              <ScrollView style={style.commentsScroll}>
+                {comments}
+              </ScrollView>
           </View>
         )
       }

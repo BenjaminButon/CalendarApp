@@ -6,7 +6,7 @@ export default class HomeHeader extends React.Component{
     render() {
         return (
             <View style={{flexDirection: 'row'}}>
-                <Image source={require('../../assets/photo.png')}
+                <Image source={require('../../../assets/photo.png')}
                 style={style.photo}/>
                 <View style={style.textContainer}>
                     <Text style={style.largeText}>Ostap Benko</Text>

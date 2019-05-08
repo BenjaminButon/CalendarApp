@@ -9,11 +9,10 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, TextInput} from 'react-native';
 import {createStackNavigator, createAppContainer, createSwitchNavigator} from 'react-navigation';
-import SignIn from './src/SignIn/SignInScreen';
-import SignUpScreen from './src/SignUp/SignUpScreen';
-import Home from './src/Home/HomeScreen';
-import Post from './src/PostScreen/PostScreen';
-import CustomText from './src/CustomText';
+import SignIn from './src/screens/SignIn/SignInScreen';
+import SignUpScreen from './src/screens/SignUp/SignUpScreen';
+import Home from './src/screens/Home/HomeScreen';
+import Post from './src/screens/PostScreen/PostScreen';
 
 const AuthNavigator = createStackNavigator({
     SignUp: SignUpScreen,

@@ -7,7 +7,7 @@ export default class Post extends React.Component{
     
     render () {
         return (
-            <View >
+            <View style={style.background}>
                 <Text>{this.props.title}</Text>
                 <Text>{this.props.body}</Text>
                 <Text>{this.props.author}</Text>

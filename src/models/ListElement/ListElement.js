@@ -4,9 +4,6 @@ import style from './ListElementStyle';
 
 export default class ListElement extends React.Component{
 
-    componentDidMount() {
-        console.log("ListElement")
-    }
     render() {
         return (
         <TouchableHighlight onPress={() => this.props.navigation.navigate('Post', {
@@ -16,7 +13,7 @@ export default class ListElement extends React.Component{
             postId: this.props.postId
         })}>
         <View style={style.background}>
-                <Image source={require('../../assets/photo.png')} style={style.photo}/>
+                <Image source={require('../../../assets/photo.png')} style={style.photo}/>
                 <View style={style.textContainer}>
                     <View style={style.headTextContainer}>
                     <Text style={{fontSize: 14, color: 'white', fontWeight: 'bold'}}>{this.props.author}</Text>
