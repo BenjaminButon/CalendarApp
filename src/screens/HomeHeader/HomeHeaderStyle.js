@@ -21,5 +21,9 @@ export default style = StyleSheet.create({
     textContainer: {
         flexDirection: 'column',
         marginLeft: 10
+    },
+    container: {
+        backgroundColor: 'rgb(16, 90, 249)',
+        flexDirection: 'row'
     }
 })

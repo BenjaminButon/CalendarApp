@@ -43,12 +43,6 @@ export default class PostScreen extends React.Component{
     }
 
     render() {
-      // return (
-      //   <View style={style.commentsScroll}>
-      //     <Post author="Ostap Benko" title="sunt aut facere repellat provident occaecati excepturi optio reprehenderit" body="quia et suscipit suscipit recusandae consequuntur expedita et cum reprehenderit molestiae ut ut quas totam nostrum rerum est autem sunt rem eveniet architecto"/>
-
-      //   </View>
-      // )
         if (!this.state.comments.length){
           return <ActivityIndicator/>
         }

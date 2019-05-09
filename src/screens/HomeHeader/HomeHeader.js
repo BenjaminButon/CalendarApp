@@ -5,12 +5,12 @@ import style from './HomeHeaderStyle';
 export default class HomeHeader extends React.PureComponent{
     render() {
         return (
-            <View style={{flexDirection: 'row'}}>
+            <View style={style.container}>
                 <Image source={require(`../../../assets/avatar0.png`)}
                 style={style.photo}/>
                 <View style={style.textContainer}>
-                    <Text style={style.largeText}>Ostap Benko</Text>
-                    <Text style={style.smallText}>5 active ICO</Text>
+                    <Text style={style.largeText}>{this.props.email}</Text>
+                    <Text style={style.smallText}>{this.props.id}</Text>
                 </View>
             </View>
         )

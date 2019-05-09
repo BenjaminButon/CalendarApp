@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, TextInput, Button} from 'react-native';
-import style from './SignInStyle'
+import {signIn, signUp} from '../../services/servicesPost';
+import style from './SignInStyle';
 
 export default class SignInScreen extends React.Component{
     static navigationOptions = ({ navigation }) => {
@@ -8,26 +9,41 @@ export default class SignInScreen extends React.Component{
             headerTitle: 'SignIn',
             headerRight: (
                 <Button
-                    onPress={navigation.getParam('goHome')}
+                    onPress={navigation.getParam('signIn')}
                     title='Next'
                     color='white'
                 />
             )
         }
     };
+
+    state = {
+        email: "",
+        password: ""
+    }
     
     componentDidMount() {
-        this.props.navigation.setParams({ goHome: this._goHome});
+        this.props.navigation.setParams({ signIn: this._signIn})
     }
 
-    _goHome = () => {
-        this.props.navigation.navigate('Home');
+    _signIn = () => {
+        signIn(this.state.email, this.state.password)
+        .then(data => {
+            if (data.jwt){
+                this.props.navigation.navigate('Home', {
+                    jwt: data.jwt
+                })
+            }
+        })
+        .catch(error => {
+            console.log(error)
+        })
     }
     render() {
         return (
             <View style={style.background}>
-                <TextInput autoCapitalize='none' style={style.textInput} placeholder='Email' placeholderTextColor='white' marginTop={50}/>
-                <TextInput secureTextEntry={true} style={style.textInput} placeholder='Password' placeholderTextColor='white' marginTop={20}/>
+                <TextInput autoCapitalize='none' style={style.textInput} placeholder='Email' placeholderTextColor='white' marginTop={50} onChangeText={(text) => this.setState({email: text})}/>
+                <TextInput secureTextEntry={true} style={style.textInput} placeholder='Password' placeholderTextColor='white' marginTop={20} onChangeText={(text) => this.setState({password: text})}/>
                 <Button title="SignUp" onPress={() => this.props.navigation.navigate('SignUp')} marginTop={100}/>
             </View>
         )

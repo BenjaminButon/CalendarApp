@@ -54,7 +54,7 @@ const AppContainer = createAppContainer(createSwitchNavigator({
   Auth: AuthNavigator
 },
 {
-  initialRouteName: 'App'
+  initialRouteName: 'Auth'
 }))
 
 export default class App extends Component{
