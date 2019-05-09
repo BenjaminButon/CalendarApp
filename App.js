@@ -8,11 +8,13 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, TextInput} from 'react-native';
-import {createStackNavigator, createAppContainer, createSwitchNavigator} from 'react-navigation';
+import {createStackNavigator, createAppContainer, createSwitchNavigator, NavigationActions, SwitchNavigator} from 'react-navigation';
 import SignIn from './src/screens/SignIn/SignInScreen';
 import SignUpScreen from './src/screens/SignUp/SignUpScreen';
 import Home from './src/screens/Home/HomeScreen';
 import Post from './src/screens/PostScreen/PostScreen';
+import { getToken } from './src/services/storage';
+
 
 const AuthNavigator = createStackNavigator({
     SignUp: SignUpScreen,
@@ -49,19 +51,22 @@ const AppNavigator = createStackNavigator({
   }
 )
 
-const AppContainer = createAppContainer(createSwitchNavigator({
+const MainNavigator = createSwitchNavigator({
   App: AppNavigator,
   Auth: AuthNavigator
 },
 {
   initialRouteName: 'Auth'
-}))
+})
+
+const AppContainer = createAppContainer(MainNavigator)
 
 export default class App extends Component{
   constructor (props){
     super(props)
     this.state = {
-      isEmpty: true
+      isEmpty: true,
+      isSignedIn: false
     }
     
     setInterval(() => (
@@ -69,18 +74,12 @@ export default class App extends Component{
         { isEmpty: !previousState.isEmpty}
       ))
     ), 1000);
-    
   }
-
   
-  getGreating() {
-    if (this.state.text == 'Hello there!') {
-      this.setState(previousState => ({text: ''}))
-    } else { this.setState(previousState => ({text: 'Hello there'}))}
-  } 
   render(){
+    
     return (
-        <AppContainer/>
+        <AppContainer />
     )
   }
 }

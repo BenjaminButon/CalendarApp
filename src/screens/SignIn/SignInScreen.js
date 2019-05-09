@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, TextInput, Button} from 'react-native';
+import {Platform, StyleSheet, Text, View, TextInput, Button, AsyncStorage} from 'react-native';
 import {signIn, signUp} from '../../services/servicesPost';
 import style from './SignInStyle';
+import {setToken, getToken} from '../../services/storage';
 
 export default class SignInScreen extends React.Component{
     static navigationOptions = ({ navigation }) => {
@@ -21,18 +22,16 @@ export default class SignInScreen extends React.Component{
         email: "",
         password: ""
     }
-    
     componentDidMount() {
-        this.props.navigation.setParams({ signIn: this._signIn})
+        this.props.navigation.setParams({ signIn: this._signIn})   
     }
 
     _signIn = () => {
         signIn(this.state.email, this.state.password)
         .then(data => {
             if (data.jwt){
-                this.props.navigation.navigate('Home', {
-                    jwt: data.jwt
-                })
+                setToken(data.jwt)
+                this.props.navigation.navigate('Home')
             }
         })
         .catch(error => {

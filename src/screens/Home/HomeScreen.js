@@ -4,8 +4,8 @@ import HomeHeader from '../HomeHeader/HomeHeader';
 import ListElement from '../../modals/ListElement/ListElement';
 import style from './HomeScreenStyle';
 import { getPosts, getUsers } from '../../services/services';
-import {signUp, signIn, getUserInfo, update} from '../../services/servicesPost';
-
+import {getUserInfo} from '../../services/servicesPost';
+import {getToken} from '../../services/storage';
 
 
 
@@ -13,7 +13,8 @@ export default class HomeScreen extends React.Component{
     state = {
         posts: [],
         users: [],
-        info: {}
+        info: {},
+        token: ''
     }
     static navigationOptions = {
         // headerTitle: <HomeHeader/>
@@ -24,11 +25,19 @@ export default class HomeScreen extends React.Component{
     }
 
     componentDidMount() {
-        const {navigation} = this.props
-        getUserInfo(navigation.getParam('jwt'))
-        .then(data => {
-            console.log(data)
-            this.setState({info: data})
+        getToken()
+        .then(token => {
+            if(token){
+                getUserInfo(token)
+                .then(data => {
+                    this.setState({info: data})
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+            } else {
+                console.log('no token')
+            }
         })
         .catch(error => {
             console.log(error)
@@ -61,8 +70,8 @@ export default class HomeScreen extends React.Component{
             )
         }
         return (
-            <View>
-                <HomeHeader email={this.state.info.email} id={this.state.info.id}/>
+            <View style={{flex: 1}}>
+                <HomeHeader email={this.state.info.email} name={this.state.info.name}/>
                 <FlatList
                     style={style.background}
                     data={this.state.posts}
