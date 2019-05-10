@@ -13,6 +13,7 @@ import SignIn from './src/screens/SignIn/SignInScreen';
 import SignUpScreen from './src/screens/SignUp/SignUpScreen';
 import Home from './src/screens/Home/HomeScreen';
 import Post from './src/screens/PostScreen/PostScreen';
+import SplashScreen from './src/screens/SplashScreen/SplashScreen';
 import { getToken } from './src/services/storage';
 
 
@@ -40,7 +41,7 @@ const AppNavigator = createStackNavigator({
     }
   },
   {
-    initialRouteName: "Home",
+    initialRouteName: 'Home',
     defaultNavigationOptions: {
       headerStyle: {
         backgroundColor: 'rgb(16, 90, 249)',
@@ -51,15 +52,27 @@ const AppNavigator = createStackNavigator({
   }
 )
 
+class AuthenticationScreen extends React.Component{
+  static router = AuthNavigator.router
+  render(){
+    return (
+      <AuthNavigator navigation={this.props.navigation}/>
+    )
+  }
+}
+
 const MainNavigator = createSwitchNavigator({
   App: AppNavigator,
-  Auth: AuthNavigator
+  Auth: AuthenticationScreen,
+  SplashScreen: SplashScreen
 },
 {
-  initialRouteName: 'Auth'
+  initialRouteName: 'SplashScreen'
 })
 
+
 const AppContainer = createAppContainer(MainNavigator)
+
 
 export default class App extends Component{
   constructor (props){
@@ -75,9 +88,7 @@ export default class App extends Component{
       ))
     ), 1000);
   }
-  
   render(){
-    
     return (
         <AppContainer />
     )

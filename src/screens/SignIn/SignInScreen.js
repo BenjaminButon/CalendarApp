@@ -24,6 +24,17 @@ export default class SignInScreen extends React.Component{
     }
     componentDidMount() {
         this.props.navigation.setParams({ signIn: this._signIn})   
+        getToken()
+        .then(token => {
+            if(token){
+                console.log('signed in')
+            } else {
+                console.log('to token')
+            }
+        })
+        .catch(error => {
+            console.log(error)
+        })
     }
 
     _signIn = () => {
