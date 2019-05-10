@@ -5,6 +5,9 @@ import {getToken} from '../../services/storage'
 export default class SplashScreen extends React.Component{
     constructor(){
         super()
+    }
+
+    componentDidMount(){
         this._signedIn()
     }
 
