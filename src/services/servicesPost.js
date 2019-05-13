@@ -34,31 +34,14 @@ export async function signIn(email, password){
         }
     }
     const token = await axios.post('https://ski-rent-api.herokuapp.com/api/user_token', data, signHeaders)
-    console.log(token.data)
     return token.data
     } catch(error) {
         console.log(error)
     }
 }
 
-export async function getUserInfo(token){
-    try{
-        var headers = {
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": token,
-                "Cookie": ""
-            }
-        }
-        const info = await axios.get('https://ski-rent-api.herokuapp.com/api/users/me', headers)
-        console.log(info.data)
-        return info.data
-    } catch (error) {
-        console.log(error)
-    }
-}
 
-export async function update(token){
+export async function update(token, userName){
     try{
         var headers = {
             headers: {
@@ -69,13 +52,11 @@ export async function update(token){
         }
         var data = {
             user: {
-                name: "Ostap Benko",
-                city_id: 41
+                name: userName
             }
         }
         const response = await axios.patch('https://ski-rent-api.herokuapp.com/api/users', data, headers)
-        console.log(info.data)
-        return info.data
+        return response.data
     } catch (error) {
         console.log(error)
     }

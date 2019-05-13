@@ -3,6 +3,7 @@ import {Platform, StyleSheet, Text, View, TextInput, Image, TouchableHighlight} 
 import style from './ListElementStyle';
 
 export default class ListElement extends React.PureComponent{
+    static counter = 0
 
     render() {
         return (

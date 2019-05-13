@@ -26,3 +26,21 @@ export async function getCommentForPost(postId){
         return []
     }
 }
+
+export async function getUserInfo(token){
+    try{
+        var headers = {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": token,
+                "Cookie": ""
+            }
+        }
+        const info = await axios.get('https://ski-rent-api.herokuapp.com/api/users/me', headers)
+        console.log(info.data)
+        console.log('got info from services')
+        return info.data
+    } catch (error) {
+        console.log(error)
+    }
+}

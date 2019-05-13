@@ -14,7 +14,10 @@ import SignUpScreen from './src/screens/SignUp/SignUpScreen';
 import Home from './src/screens/Home/HomeScreen';
 import Post from './src/screens/PostScreen/PostScreen';
 import SplashScreen from './src/screens/SplashScreen/SplashScreen';
+import Edit from './src/screens/EditScreen/EditScreen';
 import { getToken } from './src/services/storage';
+import {Provider} from 'react-redux';
+import store from './src/redux/index';
 
 
 const AuthNavigator = createStackNavigator({
@@ -38,6 +41,9 @@ const AppNavigator = createStackNavigator({
     },
     Post: {
       screen: Post
+    }, 
+    Edit: {
+      screen: Edit
     }
   },
   {
@@ -52,22 +58,14 @@ const AppNavigator = createStackNavigator({
   }
 )
 
-class AuthenticationScreen extends React.Component{
-  static router = AuthNavigator.router
-  render(){
-    return (
-      <AuthNavigator navigation={this.props.navigation}/>
-    )
-  }
-}
 
 const MainNavigator = createSwitchNavigator({
   App: AppNavigator,
-  Auth: AuthenticationScreen,
+  Auth: AuthNavigator,
   SplashScreen: SplashScreen
 },
 {
-  initialRouteName: 'SplashScreen'
+  initialRouteName: 'App'
 })
 
 
@@ -90,7 +88,9 @@ export default class App extends Component{
   }
   render(){
     return (
+      <Provider store={store}>
         <AppContainer />
+      </Provider>
     )
   }
 }

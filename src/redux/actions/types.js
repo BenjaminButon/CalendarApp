@@ -1,0 +1,1 @@
+export default NAME_CHANGED = 'NAME_CHANGED'

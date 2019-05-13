@@ -4,8 +4,6 @@ import HomeHeader from '../HomeHeader/HomeHeader';
 import ListElement from '../../modals/ListElement/ListElement';
 import style from './HomeScreenStyle';
 import { getPosts, getUsers } from '../../services/services';
-import {getUserInfo} from '../../services/servicesPost';
-import {getToken} from '../../services/storage';
 
 
 
@@ -25,23 +23,6 @@ export default class HomeScreen extends React.Component{
     }
 
     componentDidMount() {
-        getToken()
-        .then(token => {
-            if(token){
-                getUserInfo(token)
-                .then(data => {
-                    this.setState({info: data})
-                })
-                .catch(error => {
-                    console.log(error)
-                })
-            } else {
-                console.log('no token')
-            }
-        })
-        .catch(error => {
-            console.log(error)
-        })
         getPosts()
         .then(response => {
             console.log('got posts')
@@ -71,11 +52,11 @@ export default class HomeScreen extends React.Component{
         }
         return (
             <View style={{flex: 1}}>
-                <HomeHeader email={this.state.info.email} name={this.state.info.name}/>
+                <HomeHeader navigation={this.props.navigation}/>
                 <FlatList
                     style={style.background}
                     data={this.state.posts}
-                    renderItem={({item, index}) => (
+                    renderItem={({item}) => (
                         <ListElement title={item.title} author='Owner' postId={item.id} body={item.body} navigation={this.props.navigation}/>
                     )}
                 />

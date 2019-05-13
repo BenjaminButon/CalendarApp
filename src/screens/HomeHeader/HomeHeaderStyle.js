@@ -25,5 +25,11 @@ export default style = StyleSheet.create({
     container: {
         backgroundColor: 'rgb(16, 90, 249)',
         flexDirection: 'row'
+    },
+    buttonsContainer: {
+        flexDirection: 'column',
+        flex: 1,
+        justifyContent: 'space-between',
+        alignItems: 'center'
     }
 })

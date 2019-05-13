@@ -3,6 +3,9 @@ import {Platform, StyleSheet, Text, View, TextInput, Button} from 'react-native'
 import style from './SignUpStyle';
 import {signUp, signIn} from '../../services/servicesPost';
 
+
+const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
 export default class SignUpScreen extends React.Component{
     static navigationOptions = ({ navigation }) => {
         return {
@@ -43,7 +46,12 @@ export default class SignUpScreen extends React.Component{
             console.log(error)
         })
     }
-
+    validateEmail(){
+        return emailRegex.test(this.state.email)
+    }
+    validatePassword(){
+        return this.state.password.length >=4 && this.state.password === this.state.confirmPass ? true : false
+    }
     render() {
         return (
             <View style={style.background}>

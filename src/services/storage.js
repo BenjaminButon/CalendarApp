@@ -18,3 +18,11 @@ export async function getToken(){
         console.log(error)
     }
 }
+
+export async function signOut(){
+    try {
+        await AsyncStorage.clear()
+    } catch (error) {
+        console.log(error)
+    }
+}
