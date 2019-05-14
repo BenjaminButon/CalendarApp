@@ -65,7 +65,7 @@ const MainNavigator = createSwitchNavigator({
   SplashScreen: SplashScreen
 },
 {
-  initialRouteName: 'App'
+  initialRouteName: 'SplashScreen'
 })
 
 

@@ -3,10 +3,11 @@ import {View, TextInput, Button} from 'react-native';
 import {update} from '../../services/servicesPost';
 import {getToken} from '../../services/storage';
 import style from '../SignIn/SignInStyle';
-import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+import {changeName} from '../../redux/actions/changeName'
 
 
-export default class EditScreen extends React.Component{
+class EditScreen extends React.Component{
     state = {
         username: ''
     }
@@ -35,8 +36,18 @@ export default class EditScreen extends React.Component{
         return (
             <View style={style.background}>
                 <TextInput style={style.textInput} placeholder='Name' placeholderTextColor='white' marginTop={50} onChangeText={(text) => {this.setState({username: text})}}/>
-                <Button title='Submit' onPress={() => this.changeData()}/>
+                <Button title='Submit' onPress={() => {
+                    this.props.changeName(this.state.username)
+                    this.props.navigation.goBack()
+                    }}/>
             </View>
         )
     }
 }
+
+const mapDispatchToProps = {
+    changeName
+}
+
+
+export default connect(null, mapDispatchToProps)(EditScreen)

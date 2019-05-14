@@ -1,4 +1,6 @@
 import axios from 'axios';
+import {changeName} from '../redux/actions/changeName';
+import {getToken} from './storage';
 
 const signHeaders = {
     headers: {
@@ -41,8 +43,9 @@ export async function signIn(email, password){
 }
 
 
-export async function update(token, userName){
+export async function update(userName){
     try{
+        let token = await getToken().then(storageToken => {return storageToken}).catch(error => {console.log(error)})
         var headers = {
             headers: {
                 "Content-Type": "application/json",

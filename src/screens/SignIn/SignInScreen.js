@@ -48,7 +48,7 @@ const validateEmail = (email) => {
 
     renderField = ({input, style, meta: {error}}) => (
         <View>
-            <TextInput {...input} style={style} onChangeText/>
+            <TextInput {...input} style={style} />
         </View>
       )
 
@@ -69,9 +69,10 @@ const validateEmail = (email) => {
 
     _signIn = () => {
         if (this.props.valid){
-            signIn(this.props.email, this.state.password)
+            signIn(this.props.email, this.props.password)
             .then(data => {
                 if (data.jwt){
+                    console.log(data.jwt)
                     setToken(data.jwt)
                     this.props.navigation.navigate('Home')
                 }
@@ -89,7 +90,7 @@ const validateEmail = (email) => {
         return (
             <View style={style.background}>
                 <Field name='email' component={this.renderField} style={style.textInput} validate={[required, validateEmail]}/>
-                <Field name='password' component={this.renderField} style={style.textInput} validate={[required]}/>
+                <Field name='password' component={this.renderField} style={style.textInput} validate={[required, validatePass]}/>
                 <Button title="SignUp" onPress={() => {this.props.navigation.navigate('SignUp')}} marginTop={100}/>
             </View>
         )
@@ -104,6 +105,7 @@ const SimpleForm = reduxForm({
 const mapStateToProps = (state) => {
     const selector = formValueSelector('SignIn')
     const email = selector(state, 'email')
-    return {email}
+    const password = selector(state, 'password')
+    return {email, password}
 }
 export default connect(mapStateToProps, null)(SimpleForm)

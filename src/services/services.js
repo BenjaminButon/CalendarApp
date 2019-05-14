@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {getToken} from './storage';
 
 export async function getPosts(){
     try{
@@ -27,8 +28,9 @@ export async function getCommentForPost(postId){
     }
 }
 
-export async function getUserInfo(token){
+export async function getUserInfo(){
     try{
+        let token = await getToken().then(storageToken => {return storageToken}).catch(error => {console.log(error)})
         var headers = {
             headers: {
                 "Content-Type": "application/json",
@@ -36,6 +38,7 @@ export async function getUserInfo(token){
                 "Cookie": ""
             }
         }
+        console.log('my token', token)
         const info = await axios.get('https://ski-rent-api.herokuapp.com/api/users/me', headers)
         console.log(info.data)
         console.log('got info from services')
@@ -44,3 +47,5 @@ export async function getUserInfo(token){
         console.log(error)
     }
 }
+
+

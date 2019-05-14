@@ -4,8 +4,8 @@ import style from './HomeHeaderStyle';
 import {getUserInfo} from '../../services/services';
 import {signOut, getToken} from '../../services/storage';
 import {connect} from 'react-redux';
-import {changeName} from '../../redux/actions/changeName';
-import {NAME_CHANGED} from '../../redux/actions/types';
+import {changeName, _getUserInfo} from '../../redux/actions/changeName';
+import { GET_USER_INFO } from '../../redux/actions/types';
 
 class HomeHeader extends React.Component{
 
@@ -14,22 +14,7 @@ class HomeHeader extends React.Component{
     }
 
     componentDidMount(){
-        getToken()
-        .then(token => {
-            if (token){
-                console.log(token)
-                getUserInfo(token)
-                .then(data => {
-                    this.setState({info: data})
-                })
-                .catch(error => {
-                    console.log(error)
-                })
-            }
-        })
-        .catch(error => {
-            console.log(error)
-        })
+        this.props._getUserInfo()
     }
     render() {
         return (
@@ -37,14 +22,14 @@ class HomeHeader extends React.Component{
                 <Image source={require(`../../../assets/avatar0.png`)}
                 style={style.photo}/>
                 <View style={style.textContainer}>
-                    <Text style={style.largeText}>{this.props.name.name}</Text>
-                    <Text style={style.smallText}>{this.state.info.email}</Text>
+                    <Text style={style.largeText}>{this.props.user.name}</Text>
+                    <Text style={style.smallText}>{this.props.user.email}</Text>
                 </View>
                 <View>
                     <TouchableHighlight onPress={() => {signOut(); this.props.navigation.navigate('SignIn')}}>
                         <Text style={style.smallText} >Sign out</Text>
                     </TouchableHighlight>
-                    <TouchableHighlight onPress={() => this.props.changeName('Ostap benko')}>
+                    <TouchableHighlight onPress={() => this.props.navigation.navigate('Edit')}>
                         <Text style={style.smallText}>Edit</Text>
                     </TouchableHighlight>
                 </View>
@@ -53,13 +38,31 @@ class HomeHeader extends React.Component{
     }
 }
 
+// const mapStateToProps = (state) => {
+//     const { userInfo } = state.userInfo
+//     return { userInfo }
+// };
+
+// const mapDispatchToProps = {
+//     changeName
+// }
+
+// export default connect(mapStateToProps, mapDispatchToProps)(HomeHeader)
+
+const setUserInfo = (info) => {
+    return {
+        type: GET_USER_INFO,
+        payload: info
+    }
+}
 const mapStateToProps = (state) => {
-    const { name } = state
-    return { name }
+    return { user: state.user.info }
 };
 
 const mapDispatchToProps = {
-    changeName
+    changeName,
+    setUserInfo,
+    _getUserInfo
 }
 // dispatch => {
 //     return {
