@@ -3,8 +3,8 @@ import {getToken} from './storage';
 
 export async function getPosts(){
     try{
-    const data = await axios.get('https://jsonplaceholder.typicode.com/posts')
-    return data.data
+    const response = await axios.get('https://jsonplaceholder.typicode.com/posts')
+    return response.data
     } catch (err){
         return []
     }

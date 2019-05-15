@@ -1,5 +1,4 @@
 import axios from 'axios';
-import {changeName} from '../redux/actions/changeName';
 import {getToken} from './storage';
 
 const signHeaders = {
@@ -9,16 +8,16 @@ const signHeaders = {
     }
 }
 
-export async function signUp(email, password){
+export async function signUp(email, password, fullName){
     try{
     var data = {
         user: {
             email: email,
-            password: password
+            password: password,
+            name: fullName
         }
     }
     const token = await axios.post('https://ski-rent-api.herokuapp.com/api/sign_up', data, signHeaders)
-    console.log(token.data)
     return token.data
     } catch(error) {
 
@@ -29,8 +28,6 @@ export async function signIn(email, password){
     try{
     var data = {
         auth: {
-            // email: "email2@email.com",
-            // password: "password"
             email: email,
             password: password
         }

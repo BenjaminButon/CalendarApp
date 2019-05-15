@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 
-export default style = StyleSheet.create({
+export const style = StyleSheet.create({
     background: {
         backgroundColor: 'rgb(41, 41, 41)', 
         flex: 1
@@ -17,5 +17,23 @@ export default style = StyleSheet.create({
     },
     customButton: {
         color: 'white'
+    },
+    email: {
+        marginTop: 50
+    },
+    password: {
+        marginTop: 20
+    }
+})
+
+export const warning = StyleSheet.create({
+    wrong: {
+        borderColor: 'red',
+        borderWidth: 1
+    },
+    warning: {
+        fontSize: 14,
+        color: 'red',
+        marginLeft: 50
     }
 })

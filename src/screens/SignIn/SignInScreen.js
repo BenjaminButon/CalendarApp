@@ -1,33 +1,32 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, TextInput, Button, AsyncStorage} from 'react-native';
-import {signIn, signUp} from '../../services/servicesPost';
-import style from './SignInStyle';
+import {View, TextInput, Button, Text} from 'react-native';
+import {signIn} from '../../services/servicesPost';
+import {style, warning} from './SignInStyle';
 import {setToken, getToken} from '../../services/storage';
-import { email } from 'redux-form-validators';
 import {Field, reduxForm, formValueSelector} from 'redux-form';
 import {connect} from 'react-redux';
-
+import {required, validateEmail, validatePassword} from '../../validation/validators';
 
 
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-const required = (str) => {
-    if (str) {
-        return null
-    } else {
-        return 'required'
+const _validate = values => {
+    const errors = {}
+    if(!values.email){
+        errors.email = 'Required'
+    } else if (!emailRegex.test(value.email)){
+        errors.email = 'Invalid email address'
     }
+    if (!values.password){
+        errors.password = 'Required'
+    }
+    return errors
 }
 
-const validateEmail = (email) => {
-    if (emailRegex.test(email)) {
-        return null
-    } else {
-        return 'wrong email'
-    }
-}
-
- class SignInScreen extends React.Component{
+const correctEmail = [style.textInput, style.email]
+const correctPassword = [style.textInput, style.password]
+const wrongInput = style.wrong
+class SignInScreen extends React.Component{
     static navigationOptions = ({ navigation }) => {
         return {
             headerTitle: 'SignIn',
@@ -46,33 +45,34 @@ const validateEmail = (email) => {
         password: ""
     }
 
-    renderField = ({input, style, meta: {error}}) => (
-        <View>
-            <TextInput {...input} style={style} />
-        </View>
-      )
+    renderField = ({input, style, placeholder, autoCapitalize, meta: {touched, error}}) => {
+        const password = placeholder === 'Password' ? true : false
+        if (touched && error){
+            return (
+                <View>
+                    <TextInput {...input} autoCapitalize={autoCapitalize} secureTextEntry={password} style={[...style, warning.wrong]} placeholderTextColor='white' placeholder={placeholder}/>
+                    <Text style={warning.warning}>{error}</Text>
+                </View>
+            )
+        } else {
+            return (
+                <View>
+                    <TextInput {...input} style={style} secureTextEntry={password} autoCapitalize={autoCapitalize} placeholderTextColor='white' placeholder={placeholder}/>
+                </View>
+            )
+        }
+    }
 
     componentDidMount() {
-        this.props.navigation.setParams({ signIn: this._signIn})   
-        getToken()
-        .then(token => {
-            if(token){
-                console.log('signed in')
-            } else {
-                console.log('to token')
-            }
-        })
-        .catch(error => {
-            console.log(error)
-        })
+        this.props.navigation.setParams({ signIn: this._signIn})
     }
 
     _signIn = () => {
+        console.log(this.props.valid)
         if (this.props.valid){
             signIn(this.props.email, this.props.password)
             .then(data => {
                 if (data.jwt){
-                    console.log(data.jwt)
                     setToken(data.jwt)
                     this.props.navigation.navigate('Home')
                 }
@@ -83,14 +83,11 @@ const validateEmail = (email) => {
         }
     }
 
-    validatePassword(){
-        return this.state.password.length >= 4 ? true : false
-    }
     render() {
         return (
             <View style={style.background}>
-                <Field name='email' component={this.renderField} style={style.textInput} validate={[required, validateEmail]}/>
-                <Field name='password' component={this.renderField} style={style.textInput} validate={[required, validatePass]}/>
+                <Field name='email' component={this.renderField} autoCapitalize='none' style={correctEmail} placeholder='Email' validate={[required, validateEmail]}/>
+                <Field name='password' component={this.renderField} style={correctPassword} placeholder='Password' validate={[required, validatePassword]}/>
                 <Button title="SignUp" onPress={() => {this.props.navigation.navigate('SignUp')}} marginTop={100}/>
             </View>
         )
@@ -99,6 +96,7 @@ const validateEmail = (email) => {
 
 const SimpleForm = reduxForm({
     form: 'SignIn'
+    //_validate
 })(SignInScreen)
 
 

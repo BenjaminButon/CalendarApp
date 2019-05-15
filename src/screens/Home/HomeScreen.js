@@ -4,12 +4,14 @@ import HomeHeader from '../HomeHeader/HomeHeader';
 import ListElement from '../../modals/ListElement/ListElement';
 import style from './HomeScreenStyle';
 import { getPosts, getUsers } from '../../services/services';
+import {connect} from 'react-redux';
+import {loadPosts} from '../../redux/actions/postActions';
 
 
 
-export default class HomeScreen extends React.Component{
+class HomeScreen extends React.Component{
     state = {
-        posts: [],
+        //posts: [],
         users: [],
         info: {},
         token: ''
@@ -23,14 +25,7 @@ export default class HomeScreen extends React.Component{
     }
 
     componentDidMount() {
-        getPosts()
-        .then(response => {
-            console.log('got posts')
-            this.setState({posts: response});
-            })
-        .catch(error => {
-            console.log(error.message)
-        })
+        this.props.loadPosts()
         getUsers()
         .then(response => {
             console.log('got users')
@@ -42,7 +37,7 @@ export default class HomeScreen extends React.Component{
     }
 
     render() {
-        if (!this.state.posts.length ){
+        if (!this.props.posts.length ){
             return (
                 <View>
                     <HomeHeader/>
@@ -55,7 +50,7 @@ export default class HomeScreen extends React.Component{
                 <HomeHeader navigation={this.props.navigation}/>
                 <FlatList
                     style={style.background}
-                    data={this.state.posts}
+                    data={this.props.posts}
                     renderItem={({item}) => (
                         <ListElement title={item.title} author='Owner' postId={item.id} body={item.body} navigation={this.props.navigation}/>
                     )}
@@ -65,3 +60,14 @@ export default class HomeScreen extends React.Component{
     }
 }
 
+const mapStateToProps = (state) => {
+    //const {posts} = state.post.posts;
+    console.log(state.post.posts)
+    return {posts: state.post.posts}
+}
+
+const mapDispatchToProps = {
+    loadPosts
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen)

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {View, TextInput, Button} from 'react-native';
 import {update} from '../../services/servicesPost';
 import {getToken} from '../../services/storage';
-import style from '../SignIn/SignInStyle';
+import {style} from '../SignIn/SignInStyle';
 import {connect} from 'react-redux';
 import {changeName} from '../../redux/actions/changeName'
 

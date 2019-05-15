@@ -44,9 +44,15 @@ export default class PostScreen extends React.Component{
 
     render() {
         if (!this.state.comments.length){
-          return <ActivityIndicator/>
+          return (
+            <View>
+              <Post author={this.author} title={this.title} body={this.body}/>
+              <ActivityIndicator/>
+            </View>
+          )
         }
         return (
+          
           <View style={style.commentsScroll}>
               <Post author={this.author} title={this.title} body={this.body}/>
               <ScrollView>

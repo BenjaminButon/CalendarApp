@@ -8,7 +8,7 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, TextInput} from 'react-native';
-import {createStackNavigator, createAppContainer, createSwitchNavigator, NavigationActions, SwitchNavigator} from 'react-navigation';
+import {createStackNavigator, createAppContainer, createSwitchNavigator, createBottomTabNavigator, createDrawerNavigator} from 'react-navigation';
 import SignIn from './src/screens/SignIn/SignInScreen';
 import SignUpScreen from './src/screens/SignUp/SignUpScreen';
 import Home from './src/screens/Home/HomeScreen';
@@ -41,7 +41,7 @@ const AppNavigator = createStackNavigator({
     },
     Post: {
       screen: Post
-    }, 
+    },
     Edit: {
       screen: Edit
     }
@@ -57,6 +57,7 @@ const AppNavigator = createStackNavigator({
     }
   }
 )
+
 
 
 const MainNavigator = createSwitchNavigator({

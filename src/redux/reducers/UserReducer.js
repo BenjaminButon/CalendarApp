@@ -1,4 +1,4 @@
-import {NAME_CHANGED, GET_USER_INFO, UPDATE_USER} from '../actions/types';
+import {UserAction} from '../actions/types';
 const initialState = {
 
     info: {
@@ -10,7 +10,7 @@ const initialState = {
 const UserReducer = (state = initialState, action) => {
     switch (action.type) {
         
-        case NAME_CHANGED: {
+        case UserAction.NAME_CHANGED: {
             console.log(action)
             return {
                 ...state, 
@@ -20,7 +20,7 @@ const UserReducer = (state = initialState, action) => {
                 }
             }
         }
-        case UPDATE_USER: {
+        case UserAction.UPDATE_USER: {
             console.log(action)
             return {
                 ...state,
@@ -30,14 +30,13 @@ const UserReducer = (state = initialState, action) => {
                 }
             }
         }
-        case GET_USER_INFO: {
+        case UserAction.GET_USER_INFO: {
             return {
                 ...state,
                 info: action.payload
             }
         }
-        case 'ERROR': {
-            console.log('reducer error')
+        case UserAction.ERROR: {
             return state
         }
         default: {

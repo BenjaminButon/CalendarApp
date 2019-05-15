@@ -1,12 +1,14 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, TextInput, Button} from 'react-native';
-import style from './SignUpStyle';
-import {signUp, signIn} from '../../services/servicesPost';
+import {style, warning} from './SignUpStyle';
+import {signUp} from '../../services/servicesPost';
+import {Field, reduxForm, formValueSelector} from 'redux-form';
+import {setToken} from '../../services/storage';
+import {connect} from 'react-redux';
+import {required, validateEmail, validatePassword, lowerCase, capitalizeWords} from '../../validation/validators';
 
 
-const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-export default class SignUpScreen extends React.Component{
+class SignUpScreen extends React.Component{
     static navigationOptions = ({ navigation }) => {
         return {
             headerTitle: 'SignUp',
@@ -21,45 +23,73 @@ export default class SignUpScreen extends React.Component{
         }
     };
 
-    state = {
-        fullName: "",
-        email: "",
-        password: "",
-        confirmPass: ""
-    }
-    componentDidMount() {
-        this.props.navigation.setParams({ goHome: this._goHome});
-        this.props.navigation.setParams({ signUp: this._signUp})
+    renderField = ({input, style, placeholder, autoCapitalize, meta: {touched, error}}) => {
+        const password = placeholder === 'Password' || placeholder === 'Confirm password' ? true : false
+        if (touched && error){
+            return (
+                <View>
+                    <TextInput {...input} autoCapitalize={autoCapitalize} secureTextEntry={password} style={[...style, warning.wrong]} placeholderTextColor='white' placeholder={placeholder}/>
+                    <Text style={warning.warning}>{error}</Text>
+                </View>
+            )
+        } else {
+            return (
+                <View>
+                    <TextInput {...input} style={style} secureTextEntry={password} autoCapitalize={autoCapitalize} placeholderTextColor='white' placeholder={placeholder}/>
+                </View>
+            )
+        }
     }
 
-    _goHome = () => {
-        this.props.navigation.navigate('Home');
+    componentDidMount() {
+        this.props.navigation.setParams({ signUp: this._signUp})
     }
     _signUp = () => {
-        signUp(this.state.email, this.state.password)
-        .then(data => {
-            if (data.jwt){
-                this.props.navigation.navigate('Home')
-            }
-        })
-        .catch(error => {
-            console.log(error)
-        })
-    }
-    validateEmail(){
-        return emailRegex.test(this.state.email)
-    }
-    validatePassword(){
-        return this.state.password.length >=4 && this.state.password === this.state.confirmPass ? true : false
+        if (this.props.valid){
+            signUp(this.props.email, this.props.password, this.props.fullName)
+            .then(data => {
+                if (data.jwt){
+                    setToken(data.jwt)
+                    this.props.navigation.navigate('Home')
+                }
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        }
     }
     render() {
         return (
             <View style={style.background}>
-                <TextInput autoCapitalize='words' style={style.textInput} placeholder='Full Name' placeholderTextColor='white' marginTop={50} onChangeText={(text) => this.setState({fullName: text})}/>
-                <TextInput autoCapitalize='none' style={style.textInput} placeholder='Email' placeholderTextColor='white' marginTop={20} onChangeText={(text) => this.setState({email: text})}/>
-                <TextInput secureTextEntry={true} style={style.textInput} placeholder='Password' placeholderTextColor='white' marginTop={20} onChangeText={(text) => this.setState({password: text})}/>
-                <TextInput secureTextEntry={true} style={style.textInput} placeholder='Confirm password' placeholderTextColor='white' marginTop={20} onChangeText={(text) => this.setState({confirmPass: text})}/>
+                <Field name='fullName' 
+                component={this.renderField} 
+                style={[style.textInput, style.email]} 
+                placeholder='Full Name' 
+                validate={[required]}
+                autoCapitalize='words'/>
+                <Field name='email' 
+                component={this.renderField} 
+                style={[style.textInput, style.password]} 
+                placeholder='Email' 
+                validate={[required, validateEmail]}
+                autoCapitalize='none'/>
+                <Field name='password' component={this.renderField} style={[style.textInput, style.password]} placeholder='Password' validate={[required, validatePassword]}/>
+                <Field name='confirmPassword' component={this.renderField} style={[style.textInput, style.password]} placeholder='Confirm password' validate={[required, validatePassword]}/>
             </View>
         )
     }
 }
+
+const SignUpForm = reduxForm({
+    form: 'SignUp'
+})(SignUpScreen)
+
+const mapStateToProps = (state) => {
+    const selector = formValueSelector('SignUp')
+    const fullName = selector(state, 'fullName')
+    const email = selector(state, 'email')
+    const password = selector(state, 'password')
+    const confirmPassword = selector(state, 'confirmPassword')
+    return {email, password, fullName, confirmPassword}
+}
+export default connect(mapStateToProps, null)(SignUpForm)
