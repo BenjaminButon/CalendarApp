@@ -6,6 +6,7 @@ export default class ListElement extends React.PureComponent{
     static counter = 0
 
     render() {
+        console.log(this.props.postId)
         return (
         <TouchableHighlight onPress={() => this.props.navigation.navigate('Post', {
             title: this.props.title,

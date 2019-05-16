@@ -45,6 +45,10 @@ export async function getUserInfo(){
         return info.data
     } catch (error) {
         console.log(error)
+        return {
+            name: 'Failed ',
+            email: 'Failed'
+        }
     }
 }
 

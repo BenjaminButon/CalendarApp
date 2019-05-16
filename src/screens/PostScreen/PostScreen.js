@@ -26,14 +26,17 @@ export default class PostScreen extends React.Component{
     state = {
         comments: []
       }
-
     componentDidMount() {
         const {navigation} = this.props
         this.postId = navigation.getParam('postId')
         this.title = navigation.getParam('title')
         this.author = navigation.getParam('author')
         this.body = navigation.getParam('body')
-        getCommentForPost(this.postId)
+        console.log('ID => ', this.postId)
+        console.log('Title => ', this.title)
+        console.log('Author => ', this.author)
+        console.log('Body => ', this.body)
+        getCommentForPost(this.postId + 1)
         .then(response => {
           this.setState({comments: response})
         })
@@ -43,10 +46,11 @@ export default class PostScreen extends React.Component{
     }
 
     render() {
+
         if (!this.state.comments.length){
           return (
             <View>
-              <Post author={this.author} title={this.title} body={this.body}/>
+              <Post postId={this.props.navigation.getParam('postId')} navigation={this.props.navigation}/>
               <ActivityIndicator/>
             </View>
           )
@@ -54,7 +58,7 @@ export default class PostScreen extends React.Component{
         return (
           
           <View style={style.commentsScroll}>
-              <Post author={this.author} title={this.title} body={this.body}/>
+              <Post postId={this.props.navigation.getParam('postId')}/>
               <ScrollView>
                 <FlatList 
                 style={{paddingLeft: 5, paddingRight: 5}}

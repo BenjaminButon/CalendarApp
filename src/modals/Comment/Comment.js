@@ -4,9 +4,6 @@ import style from './style';
 
 
 export default class Comment extends React.PureComponent{
-    componentDidMount(){
-        console.log(this.props.body)
-    }
     render() {
         return (
             <View style={style.comment}>

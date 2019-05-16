@@ -17,3 +17,10 @@ export const loadPosts = () => (dispatch) => {
         })
     })
 }
+
+export const changePost = (newInfo) => {
+    return {
+        type: PostAction.CHANGE_INFO,
+        payload: newInfo
+    }
+}

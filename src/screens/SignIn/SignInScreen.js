@@ -45,22 +45,12 @@ class SignInScreen extends React.Component{
         password: ""
     }
 
-    renderField = ({input, style, placeholder, autoCapitalize, meta: {touched, error}}) => {
-        const password = placeholder === 'Password' ? true : false
-        if (touched && error){
-            return (
-                <View>
-                    <TextInput {...input} autoCapitalize={autoCapitalize} secureTextEntry={password} style={[...style, warning.wrong]} placeholderTextColor='white' placeholder={placeholder}/>
-                    <Text style={warning.warning}>{error}</Text>
-                </View>
-            )
-        } else {
-            return (
-                <View>
-                    <TextInput {...input} style={style} secureTextEntry={password} autoCapitalize={autoCapitalize} placeholderTextColor='white' placeholder={placeholder}/>
-                </View>
-            )
-        }
+    renderField = ({input, style, placeholder, autoCapitalize, secured, meta: {touched, error}}) => {
+             return (   <View>
+                     <TextInput {...input} autoCapitalize={autoCapitalize} secureTextEntry={secured} style={[...style, touched && error && warning.wrong]} placeholderTextColor='white' placeholder={placeholder}/>
+                     {touched && error && <Text style={warning.warning}>{error}</Text>}
+                 </View>
+             )
     }
 
     componentDidMount() {
@@ -87,7 +77,7 @@ class SignInScreen extends React.Component{
         return (
             <View style={style.background}>
                 <Field name='email' component={this.renderField} autoCapitalize='none' style={correctEmail} placeholder='Email' validate={[required, validateEmail]}/>
-                <Field name='password' component={this.renderField} style={correctPassword} placeholder='Password' validate={[required, validatePassword]}/>
+                <Field name='password' component={this.renderField} style={correctPassword} placeholder='Password' secured={true} validate={[required, validatePassword]}/>
                 <Button title="SignUp" onPress={() => {this.props.navigation.navigate('SignUp')}} marginTop={100}/>
             </View>
         )

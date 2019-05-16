@@ -6,6 +6,7 @@ import {Field, reduxForm, formValueSelector} from 'redux-form';
 import {setToken} from '../../services/storage';
 import {connect} from 'react-redux';
 import {required, validateEmail, validatePassword, lowerCase, capitalizeWords} from '../../validation/validators';
+import { TabRouter } from 'react-navigation';
 
 
 class SignUpScreen extends React.Component{
@@ -23,22 +24,12 @@ class SignUpScreen extends React.Component{
         }
     };
 
-    renderField = ({input, style, placeholder, autoCapitalize, meta: {touched, error}}) => {
-        const password = placeholder === 'Password' || placeholder === 'Confirm password' ? true : false
-        if (touched && error){
-            return (
-                <View>
-                    <TextInput {...input} autoCapitalize={autoCapitalize} secureTextEntry={password} style={[...style, warning.wrong]} placeholderTextColor='white' placeholder={placeholder}/>
-                    <Text style={warning.warning}>{error}</Text>
-                </View>
-            )
-        } else {
-            return (
-                <View>
-                    <TextInput {...input} style={style} secureTextEntry={password} autoCapitalize={autoCapitalize} placeholderTextColor='white' placeholder={placeholder}/>
-                </View>
-            )
-        }
+    renderField = ({input, style, placeholder, autoCapitalize, secured, meta: {touched, error}}) => {
+        return (   <View>
+            <TextInput {...input} autoCapitalize={autoCapitalize} secureTextEntry={secured} style={[...style, touched && error && warning.wrong]} placeholderTextColor='white' placeholder={placeholder}/>
+            {touched && error && <Text style={warning.warning}>{error}</Text>}
+        </View>
+    )
     }
 
     componentDidMount() {
@@ -73,8 +64,8 @@ class SignUpScreen extends React.Component{
                 placeholder='Email' 
                 validate={[required, validateEmail]}
                 autoCapitalize='none'/>
-                <Field name='password' component={this.renderField} style={[style.textInput, style.password]} placeholder='Password' validate={[required, validatePassword]}/>
-                <Field name='confirmPassword' component={this.renderField} style={[style.textInput, style.password]} placeholder='Confirm password' validate={[required, validatePassword]}/>
+                <Field name='password' component={this.renderField} style={[style.textInput, style.password]} placeholder='Password' validate={[required, validatePassword]} secured={true}/>
+                <Field name='confirmPassword' component={this.renderField} style={[style.textInput, style.password]} placeholder='Confirm password' validate={[required, validatePassword]} secured={true}/>
             </View>
         )
     }

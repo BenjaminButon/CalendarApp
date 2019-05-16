@@ -15,6 +15,7 @@ import Home from './src/screens/Home/HomeScreen';
 import Post from './src/screens/PostScreen/PostScreen';
 import SplashScreen from './src/screens/SplashScreen/SplashScreen';
 import Edit from './src/screens/EditScreen/EditScreen';
+import EditPostScreen from './src/screens/EditScreen/EditPostScreen';
 import { getToken } from './src/services/storage';
 import {Provider} from 'react-redux';
 import store from './src/redux/index';
@@ -44,6 +45,9 @@ const AppNavigator = createStackNavigator({
     },
     Edit: {
       screen: Edit
+    },
+    EditPost: {
+      screen: EditPostScreen
     }
   },
   {

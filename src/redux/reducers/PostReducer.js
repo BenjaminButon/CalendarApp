@@ -12,6 +12,18 @@ const PostReducer = (state = initialState, action) => {
                 posts: [...action.payload]
             }
         }
+        case PostAction.CHANGE_INFO : {
+            console.log(action.payload)
+            const newPosts = state.posts
+            newPosts[action.payload.is - 1] = action.payload
+            return {
+                ...state,
+                ...state.posts[action.payload.id - 1] = action.payload,
+                posts: [...state.posts]
+                
+                
+            }
+        }
         case PostAction.ERROR : {
             console.log('PostReducer Error => ', action.payload)
             return state

@@ -11,13 +11,11 @@ import {loadPosts} from '../../redux/actions/postActions';
 
 class HomeScreen extends React.Component{
     state = {
-        //posts: [],
         users: [],
         info: {},
         token: ''
     }
     static navigationOptions = {
-        // headerTitle: <HomeHeader/>
         headerStyle: {
             height: 0,
             backgroundColor: 'rgb(16, 90, 249)'
@@ -52,7 +50,7 @@ class HomeScreen extends React.Component{
                     style={style.background}
                     data={this.props.posts}
                     renderItem={({item}) => (
-                        <ListElement title={item.title} author='Owner' postId={item.id} body={item.body} navigation={this.props.navigation}/>
+                        <ListElement title={item.title} author='Owner' postId={item.id - 1} body={item.body} navigation={this.props.navigation}/>
                     )}
                 />
             </View>
@@ -61,7 +59,6 @@ class HomeScreen extends React.Component{
 }
 
 const mapStateToProps = (state) => {
-    //const {posts} = state.post.posts;
     console.log(state.post.posts)
     return {posts: state.post.posts}
 }
