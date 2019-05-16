@@ -13,16 +13,15 @@ const PostReducer = (state = initialState, action) => {
             }
         }
         case PostAction.CHANGE_INFO : {
-            console.log(action.payload)
-            const newPosts = state.posts
-            newPosts[action.payload.is - 1] = action.payload
+            const index = state.posts.findIndex(post => post.id == action.payload.id)
+            if (index >= 0){
+                state.posts[index] = {...state.posts[index], ...action.payload}
             return {
                 ...state,
-                ...state.posts[action.payload.id - 1] = action.payload,
                 posts: [...state.posts]
                 
                 
-            }
+            }} else { return state}
         }
         case PostAction.ERROR : {
             console.log('PostReducer Error => ', action.payload)
